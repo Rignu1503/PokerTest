@@ -19,12 +19,14 @@ public class HandFactory implements IhandFactory {
     public HandResponse ValidatedHand(HandRequest request) {
 
         HandResponse pairResponse = handService.validatedPair(request);
+        HandResponse twoPairResponse = handService.validatedTwoPair(request);
 
-        
+        if (twoPairResponse != null)
+            return twoPairResponse;
+
         if (pairResponse != null) {
             return pairResponse;
         }
-
 
         return handService.validatedHighCard(request);
     }
