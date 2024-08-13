@@ -20,6 +20,10 @@ public class HandFactory implements IhandFactory {
 
         HandResponse pairResponse = handService.validatedPair(request);
         HandResponse twoPairResponse = handService.validatedTwoPair(request);
+        HandResponse threeOfAKindResponse = handService.validatedWinThreeOfAKind(request);
+
+        if (threeOfAKindResponse != null)
+            return threeOfAKindResponse;
 
         if (twoPairResponse != null)
             return twoPairResponse;
