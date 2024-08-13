@@ -161,5 +161,42 @@ public class HandService implements IhandSerivce {
     }
 
 
+    @Override
+    public HandResponse validatedTwoPair(HandRequest request) {
 
+        String hand1 = request.getHand1();
+        String hand2 = request.getHand2();
+
+        String[] arrayHand1 = hand1.split(" ");
+        String[] arrayHand2 = hand2.split(" ");
+
+        int[] valueHand1 = valueDuplicated(arrayHand1);
+        int[] valueHand2 = valueDuplicated(arrayHand2);
+
+        int winnerHand1 = valueHand1.length;
+        int winnerHand2 = valueHand2.length;
+
+
+        HandResponse response = new HandResponse();
+        String winnerHand;
+
+        if (winnerHand1 == 2) {
+            winnerHand = "hand1";
+            response.setCompositionWinnerHand(Arrays.asList(arrayHand1));
+            response.setWinnerHand(winnerHand);
+            response.setWinnerHandType("TwoPair");
+
+        } else if (winnerHand2 == 2) {
+            winnerHand = "hand2";
+            response.setCompositionWinnerHand(Arrays.asList(arrayHand2));
+            response.setWinnerHand(winnerHand);
+            response.setWinnerHandType("TwoPair");
+
+        }else {
+            return null;
+
+        }
+
+        return response;
+    }
 }
