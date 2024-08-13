@@ -5,6 +5,7 @@ import com.IESSoluciones.Prueba_2.api.dto.response.HandResponse;
 import com.IESSoluciones.Prueba_2.infrastructure.service.AbstractService.IhandSerivce;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -199,4 +200,76 @@ public class HandService implements IhandSerivce {
 
         return response;
     }
+
+    @Override
+    public HandResponse validatedWinThreeOfAKind(HandRequest request) {
+
+        String hand1 = request.getHand1();
+        String hand2 = request.getHand2();
+
+        String[] arrayHand1 = hand1.split(" ");
+        String[] arrayHand2 = hand2.split(" ");
+
+        String[] valueHand1 = equalCard(arrayHand1);
+        String[] valueHand2 = equalCard(arrayHand2);
+
+        HandResponse response = new HandResponse();
+        String winnerHand;
+
+        if (valueHand1[0].equals("3")) {
+            winnerHand = "hand1";
+            response.setCompositionWinnerHand(Arrays.asList(compositionWinnerHand(arrayHand1, valueHand1)));
+            response.setWinnerHand(winnerHand);
+            //response.setWinnerHandType("ThreeOfA" + valueHand1[1]);
+            response.setWinnerHandType("ThreeOfAKind");
+
+        } else if (valueHand2[0].equals("3")) {
+            winnerHand = "hand2";
+            response.setCompositionWinnerHand(Arrays.asList(compositionWinnerHand(arrayHand2, valueHand2)));
+            response.setWinnerHand(winnerHand);
+            //response.setWinnerHandType("ThreeOfA" + valueHand2[1]);
+            response.setWinnerHandType("ThreeOfAKind");
+
+        }else {
+            return null;
+        }
+
+        return response;
+    }
+
+    public String[] equalCard(String[] hand) {
+
+        int[] valueCount = new int[15];
+        String[] arrayValues = new String[2];
+
+        for (String card : hand) {
+            int cardValue = getCardValue(card);
+            valueCount[cardValue]++;
+        }
+
+        int maxCount = 0;
+        int card = 0;
+        for (int i = 2; i < 15; i++) {
+            if (valueCount[i] > maxCount) {
+                card = i;
+                maxCount = valueCount[i];
+            }
+        }
+
+        arrayValues[0] = String.valueOf(maxCount);
+        arrayValues[1] = getCardNumber(card);
+
+        return arrayValues;
+    }
+
+    public String[] compositionWinnerHand(String[] arrayhand, String[] valuehand) {
+
+        String[] newArray = new String[Array.getLength(arrayhand) + 1];
+        newArray[0] = valuehand[1];
+        System.arraycopy(arrayhand, 0, newArray, 1, arrayhand.length);
+
+        return newArray;
+    }
+
+
 }
