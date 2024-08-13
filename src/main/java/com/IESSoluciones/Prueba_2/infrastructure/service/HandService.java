@@ -6,6 +6,8 @@ import com.IESSoluciones.Prueba_2.infrastructure.service.AbstractService.IhandSe
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class HandService implements IhandSerivce {
@@ -93,5 +95,71 @@ public class HandService implements IhandSerivce {
                 return Character.getNumericValue(rank);
         }
     }
+
+    @Override
+    public HandResponse validatedPair(HandRequest request) {
+        String hand1 = request.getHand1();
+        String hand2 = request.getHand2();
+
+        String[] arrayHand1 = hand1.split(" ");
+        String[] arrayHand2 = hand2.split(" ");
+
+        int[] valueHand1 = valueDuplicated(arrayHand1);
+        int[] valueHand2 = valueDuplicated(arrayHand2);
+
+        int winnerHand1 = valueHand1.length;
+        int winnerHand2 = valueHand2.length;
+
+        System.out.println(winnerHand1);
+        System.out.println(winnerHand2);
+
+        HandResponse response = new HandResponse();
+        String winnerHand;
+
+         if (winnerHand1 == 1) {
+            winnerHand = "hand1";
+            response.setCompositionWinnerHand(Arrays.asList(arrayHand1));
+            response.setWinnerHand(winnerHand);
+            response.setWinnerHandType("OnePair");
+
+        } else if (winnerHand2 == 1) {
+            winnerHand = "hand2";
+            response.setCompositionWinnerHand(Arrays.asList(arrayHand1));
+            response.setWinnerHand(winnerHand);
+            response.setWinnerHandType("TwoPair");
+        }else {
+             return null;
+         }
+
+
+        return response;
+    }
+
+    private int[] valueDuplicated(String[] hand) {
+        // Almacenar valores vistos
+        Set<Integer> seen = new HashSet<>();
+        Set<Integer> duplicates = new HashSet<>();
+
+        for (String card : hand) {
+            int cardValue = getCardValue(card);
+
+            // Verificar si el valor ya ha sido visto
+            if (seen.contains(cardValue)) {
+                duplicates.add(cardValue);
+            } else {
+
+                seen.add(cardValue);
+            }
+        }
+
+        int[] result = new int[duplicates.size()];
+        int i = 0;
+        for (int value : duplicates) {
+            result[i++] = value;
+        }
+        return result;
+    }
+
+
 
 }
