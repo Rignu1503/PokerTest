@@ -6,9 +6,7 @@ import com.IESSoluciones.Prueba_2.infrastructure.service.AbstractService.IhandSe
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class HandService implements IhandSerivce {
@@ -63,8 +61,6 @@ public class HandService implements IhandSerivce {
         }
     }
 
-
-
     //obtener carta mayor
     private int getHighestCardValue(String[] hand) {
 
@@ -111,21 +107,18 @@ public class HandService implements IhandSerivce {
         int winnerHand1 = valueHand1.length;
         int winnerHand2 = valueHand2.length;
 
-        System.out.println(winnerHand1);
-        System.out.println(winnerHand2);
-
         HandResponse response = new HandResponse();
         String winnerHand;
 
          if (winnerHand1 == 1) {
             winnerHand = "hand1";
-            response.setCompositionWinnerHand(Arrays.asList(arrayHand1));
+            response.setCompositionWinnerHand(Arrays.asList(convertArrayToString(valueHand1)));
             response.setWinnerHand(winnerHand);
             response.setWinnerHandType("OnePair");
 
         } else if (winnerHand2 == 1) {
             winnerHand = "hand2";
-            response.setCompositionWinnerHand(Arrays.asList(arrayHand1));
+            response.setCompositionWinnerHand(Arrays.asList(convertArrayToString(valueHand2)));
             response.setWinnerHand(winnerHand);
             response.setWinnerHandType("TwoPair");
         }else {
@@ -153,11 +146,14 @@ public class HandService implements IhandSerivce {
             }
         }
 
+
+
         int[] result = new int[duplicates.size()];
         int i = 0;
         for (int value : duplicates) {
             result[i++] = value;
         }
+
         return result;
     }
 
@@ -183,7 +179,7 @@ public class HandService implements IhandSerivce {
 
         if (winnerHand1 == 2) {
             winnerHand = "hand1";
-            response.setCompositionWinnerHand(Arrays.asList(arrayHand1));
+            response.setCompositionWinnerHand(Arrays.asList(convertArrayToString(valueHand1)));
             response.setWinnerHand(winnerHand);
             response.setWinnerHandType("TwoPair");
 
@@ -203,6 +199,8 @@ public class HandService implements IhandSerivce {
 
     @Override
     public HandResponse validatedWinThreeOfAKind(HandRequest request) {
+
+        System.out.println("hola");
 
         String hand1 = request.getHand1();
         String hand2 = request.getHand2();
@@ -308,4 +306,23 @@ public class HandService implements IhandSerivce {
 
         return response;
     }
+
+    private String[] convertArrayToString(int[] array) {
+
+        String[] cardValues = new String[array.length];
+        int i = 0;
+        for (int value : array) {
+            cardValues[i++] = getCardNumber(value);
+        }
+
+        // Convertir el array a una lista mutable y luego invertir la lista
+        List<String> cardValuesList = new ArrayList<>(Arrays.asList(cardValues));
+        Collections.reverse(cardValuesList);
+
+        String[] reversedCardValues = cardValuesList.toArray(new String[0]);
+
+
+        return reversedCardValues;
+    }
+
 }
