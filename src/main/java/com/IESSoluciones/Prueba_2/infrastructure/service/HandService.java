@@ -272,4 +272,40 @@ public class HandService implements IhandSerivce {
     }
 
 
+    @Override
+    public HandResponse validatedPoker(HandRequest request) {
+
+        String hand1 = request.getHand1();
+        String hand2 = request.getHand2();
+
+        String[] arrayHand1 = hand1.split(" ");
+        String[] arrayHand2 = hand2.split(" ");
+
+        String[] valueHand1 = equalCard(arrayHand1);
+        String[] valueHand2 = equalCard(arrayHand2);
+
+
+        HandResponse response = new HandResponse();
+        String winnerHand;
+
+        if (valueHand1[0].equals("4")) {
+            winnerHand = "hand1";
+            response.setCompositionWinnerHand(Arrays.asList(compositionWinnerHand(arrayHand1, valueHand1)));
+            response.setWinnerHand(winnerHand);
+            //response.setWinnerHandType("FourOfA" + valueHand1[1]);
+            response.setWinnerHandType("FourOfAKind");
+
+        } else if (valueHand2[0].equals("4")) {
+            winnerHand = "hand2";
+            response.setCompositionWinnerHand(Arrays.asList(compositionWinnerHand(arrayHand2, valueHand2)));
+            response.setWinnerHand(winnerHand);
+            //response.setWinnerHandType("FourOfA" + valueHand2[1]);
+            response.setWinnerHandType("FourOfAKind");
+
+        }else {
+            return null;
+        }
+
+        return response;
+    }
 }
