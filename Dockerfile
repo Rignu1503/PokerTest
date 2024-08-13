@@ -7,8 +7,8 @@ RUN mvn clean package -DskipTests=true
 
 FROM eclipse-temurin:17-jdk-alpine as prod
 RUN mkdir /app
-COPY --from=builder /app/target/*.jar PokerTest-0.0.1-SNAPSHOT.jar
+COPY --from=builder /app/target/*.jar Prueba-2-0.0.1-SNAPSHOT.jar
 
 WORKDIR /app
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/PokerTest-test-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","/Prueba-2-0.0.1-SNAPSHOT.jar"]
