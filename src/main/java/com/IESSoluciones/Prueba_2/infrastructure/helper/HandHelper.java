@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.IESSoluciones.Prueba_2.api.dto.response.HandResponse;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -41,6 +42,8 @@ public class HandHelper {
                 return 12;
             case 'J':
                 return 11;
+            case '1':
+                return 10;
             default:
                 return Character.getNumericValue(rank);
         }
@@ -129,6 +132,20 @@ public class HandHelper {
         arrayValues[1] = getCardNumber(card);
 
         return arrayValues;
+    }
+
+    public void validationTieCardrepeated(String[] valueHand1, String[] valueHand2, HandResponse response) {
+
+        String winnerHand;
+        if (Integer.parseInt(valueHand1[1]) > Integer.parseInt(valueHand2[1])) {
+
+            winnerHand = "hand1";
+            response.setCompositionWinnerHand(List.of(valueHand1[1]));
+        }else{
+            winnerHand = "hand2";
+            response.setCompositionWinnerHand(List.of(valueHand2[1]));
+        }
+        response.setWinnerHand(winnerHand);
     }
 
 
