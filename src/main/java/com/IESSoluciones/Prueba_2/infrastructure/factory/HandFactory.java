@@ -26,13 +26,13 @@ public class HandFactory implements IhandFactory {
         if(pokerResponse != null)
             return pokerResponse;
 
-        if (threeOfAKindResponse != null)
+         else if (threeOfAKindResponse != null)
             return threeOfAKindResponse;
 
-        if (twoPairResponse != null)
+        else if (twoPairResponse != null)
             return twoPairResponse;
 
-        if (pairResponse != null) {
+        else if (pairResponse != null) {
             return pairResponse;
         }
 
